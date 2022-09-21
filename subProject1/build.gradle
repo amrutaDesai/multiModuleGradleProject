@@ -1,0 +1,5 @@
+// accessing files from Common module
+// we need to import the same on sub project1 module
+dependencies {
+    implementation project(":common")
+}

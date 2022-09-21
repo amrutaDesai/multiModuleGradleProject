@@ -1,19 +1,48 @@
 plugins {
     id 'java'
+    id 'java-library'
+    id 'org.springframework.boot' version '2.7.3'
 }
 
-group 'org.pratice'
-version '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'org.springframework.boot'
 }
 
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+allprojects {
+    group 'org.pratice'
+    version '1.0-SNAPSHOT'
+
+    task('hello').doLast {
+        println "I'm $project.name"
+    }
+
+    apply from: "$rootProject.projectDir/dependencies.gradle"
+
+    dependencies {
+        annotationProcessor libs.lombok
+        api libs.guava
+        testImplementation testLibs.jupiterApi
+        testImplementation testLibs.jupiterEngine
+    }
+
+    configurations {
+        compilOnly.extendsFrom annotationProcessor
+        testCompileOnly.extendsFrom annotationProcessor
+        testAnnotationProcessor.extendsFrom annotationProcessor
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+
+    test {
+        useJUnitPlatform()
+    }
+
 }
 
-test {
-    useJUnitPlatform()
-}
+

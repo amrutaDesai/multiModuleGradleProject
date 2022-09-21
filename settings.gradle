@@ -1,2 +1,5 @@
 rootProject.name = 'multiModuleGradleProject'
+include 'subProject1'
+include 'subProject2'
+include 'common'
 
